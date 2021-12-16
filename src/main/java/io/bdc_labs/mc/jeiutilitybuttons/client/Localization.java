@@ -10,6 +10,9 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Localization {
 
     private static final String PREFIX = JeiUtilityButtons.MODID + ".";
