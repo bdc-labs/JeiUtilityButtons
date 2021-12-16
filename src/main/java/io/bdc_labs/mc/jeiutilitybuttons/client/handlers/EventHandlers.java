@@ -52,7 +52,6 @@ public class EventHandlers {
                 if (tip != null) {
                     GuiUtils.drawHoveringText(e.getMatrixStack(), tip, mouseX, Math.max(mouseY, 17), ClientUtil.getScreenWidth(),
                             ClientUtil.getScreenHeight(), -1, ClientProxy.mc.font);
-                    //RenderHelper.disableStandardItemLighting();
                 }
             }
 
@@ -165,8 +164,9 @@ public class EventHandlers {
 
         if (gui instanceof ContainerScreen) {
             int keyCode = e.getKeyCode();
+            int scanCode = e.getScanCode();
 
-            if (ClientProxy.makeCopyKey.isActiveAndMatches(InputMappings.getKey(e.getKeyCode(),e.getScanCode()))) {
+            if (ClientProxy.makeCopyKey.isActiveAndMatches(InputMappings.getKey(keyCode, scanCode))) {
                 Slot hovered = ((ContainerScreen) gui).getSlotUnderMouse();
 
                 if (hovered != null && ClientProxy.player.inventory.getSelected().isEmpty() && !hovered.getItem().isEmpty() && hovered.hasItem()) {
@@ -178,7 +178,7 @@ public class EventHandlers {
                     stack.setTag(t);
                     ClientProxy.player.inventory.setPickedItem(stack);
                 }
-            } else if (ClientProxy.hideAll.isActiveAndMatches(InputMappings.getKey(e.getKeyCode(), e.getScanCode()))) {
+            } else if (ClientProxy.hideAll.isActiveAndMatches(InputMappings.getKey(keyCode, scanCode))) {
                 ConfigHandler.COMMON.showButtons.set(!ConfigHandler.COMMON.showButtons.get());
                 ConfigHandler.COMMON.showButtons.save();
             }
@@ -207,9 +207,6 @@ public class EventHandlers {
 
     @SubscribeEvent
     public void onWorldDraw(RenderWorldLastEvent event) {
-        //if (drawMobOverlay)
-            //MobOverlayRenderer.renderMobSpawnOverlay();
-
         if (ClientProxy.mc.screen == null) {
             //ModSubsetButtonHandler.isListShown = false;
             JeiUtilityButtons.isAnyButtonHovered = false;

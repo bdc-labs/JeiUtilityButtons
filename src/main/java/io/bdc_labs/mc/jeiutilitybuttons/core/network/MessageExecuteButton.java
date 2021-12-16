@@ -29,7 +29,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import java.util.Iterator;
 
 /**
- * Class to allow JEB to use command buttons without cheats
+ *  Server side implementation for JUB buttons
  */
 public class MessageExecuteButton implements IMessage {
 
@@ -48,8 +48,6 @@ public class MessageExecuteButton implements IMessage {
     public static final byte DELETE_ALL   = 12;
     public int commandOrdinal;
     public String[] cmd;
-
-    public MessageExecuteButton() { }
 
     public MessageExecuteButton(int cmdId, String[] cmd) {
         this.commandOrdinal = cmdId;

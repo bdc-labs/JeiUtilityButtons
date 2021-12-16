@@ -13,12 +13,6 @@ import net.minecraft.world.GameRules;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by universal on 20.01.2017.
- * This file is part of JEI Buttons which is licenced
- * under the MOZILLA PUBLIC LICENCE 2.0 - mozilla.org/en-US/MPL/2.0/
- * github.com/univrsal/JEI Buttons
- */
 public class Localization {
 
     private static final String PREFIX = JeiUtilityButtons.MODID + ".";
