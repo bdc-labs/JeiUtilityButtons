@@ -47,7 +47,6 @@ public final class ConfigHandler {
         public final ForgeConfigSpec.BooleanValue killMobsRequiresOP;
         public final ForgeConfigSpec.BooleanValue timeFreezeRequiresOP;
         public final ForgeConfigSpec.BooleanValue deleteRequiresOP;
-        public final ForgeConfigSpec.BooleanValue useCheats;
 
         public final ForgeConfigSpec.IntValue yOffset;
         public final ForgeConfigSpec.IntValue xOffset;
@@ -85,14 +84,10 @@ public final class ConfigHandler {
 
             yOffset = builder.comment("Y offset of the buttons").defineInRange("yOffset", 5, 0, 1024);
             xOffset = builder.comment("X offset of the buttons").defineInRange("xOffset", 5, 0, 1024);
-
-            useCheats = builder.comment("When true JUB will require cheats to be enabled in singleplayer").define("useCheats", false);
         }
 
         public void load()
         {
-            CommandHelper.useCheats = useCheats.get();
-
             EnumButtonCommands.ADVENTURE.setEnabled(enableAdventureMode.get());
             EnumButtonCommands.SPECTATE.setEnabled(enableSpectatoreMode.get());
             JeiUtilityButtons.btnGameMode.setVisible(enableGamemode.get());

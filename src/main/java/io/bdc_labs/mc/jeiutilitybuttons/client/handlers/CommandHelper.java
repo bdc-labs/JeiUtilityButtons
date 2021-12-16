@@ -88,27 +88,12 @@ public class CommandHelper {
         }
     }
 
-    private static void sendCommand(String[] args) {
-        if (args == null)
-            return;
-        StringBuilder cmd = new StringBuilder(args[0]);
-        for (int i = 1; i < args.length; i++)
-            cmd.append(" ").append(args[i]);
-        JeiUtilityButtons.sendCommand(cmd.toString());
-    }
-
     private static void handleButton(int msgId, String[] args) {
-        if (JeiUtilityButtons.isServerSidePresent && !useCheats) { // Use direct server-client connection when enabled
-            if (msgId != MessageExecuteButton.MAGNET)
-                ClientProxy.network.sendToServer(new MessageExecuteButton(msgId, args));
-            else {
-                ClientProxy.network.sendToServer(new MessageMagnetMode(MagnetModeHandler.state));
-                MagnetModeHandler.state = !MagnetModeHandler.state;
-            }
-        } else { // Otherwise use commands for servers without JEB or SP worlds with cheats
-            sendCommand(args);
-            if (msgId == MessageExecuteButton.MAGNET)
-                MagnetModeHandler.state = !MagnetModeHandler.state;
+        if (msgId != MessageExecuteButton.MAGNET) {
+            ClientProxy.network.sendToServer(new MessageExecuteButton(msgId, args));
+        } else {
+            ClientProxy.network.sendToServer(new MessageMagnetMode(MagnetModeHandler.state));
+            MagnetModeHandler.state = !MagnetModeHandler.state;
         }
     }
 }

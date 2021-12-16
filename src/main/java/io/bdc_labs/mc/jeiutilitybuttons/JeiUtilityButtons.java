@@ -94,14 +94,6 @@ public class JeiUtilityButtons
         EnumButtonCommands.ADVENTURE.setPosition(btnGameMode.xPos, btnGameMode.yPos);
     }
 
-    public static void sendCommand(String cmd) {
-        cmd = "/" + cmd;
-        if (cmd.length() <= 256 && ClientProxy.mc.player != null)
-            ClientProxy.mc.player.sendMessage(new TranslationTextComponent(cmd), ClientProxy.mc.player.getUUID());
-        else
-            ClientProxy.mc.gui.getChat().addMessage(new TranslationTextComponent(Localization.NBT_TOO_LONG));
-    }
-
     public static void logInfo(String s, Object... format) {
         LOGGER.info("[" + MODID + "] " + s, format);
     }
