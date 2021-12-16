@@ -15,14 +15,13 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.GameType;
-import net.minecraft.world.level.storage.LevelData;
 import net.minecraft.world.level.storage.ServerLevelData;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.Iterator;
 
 /**
- * Class to allow JEB to use command buttons without cheats
+ * Server side implementation for JUB buttons
  */
 public class MessageExecuteButton implements IMessage {
 
@@ -41,8 +40,6 @@ public class MessageExecuteButton implements IMessage {
     public static final byte DELETE_ALL   = 12;
     public int commandOrdinal;
     public String[] cmd;
-
-    public MessageExecuteButton() { }
 
     public MessageExecuteButton(int cmdId, String[] cmd) {
         this.commandOrdinal = cmdId;

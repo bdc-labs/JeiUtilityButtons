@@ -9,12 +9,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
-/**
- * Created by universal on 20.09.2016 14:31.
- * This file is part of JEI Buttons which is licenced
- * under the MOZILLA PUBLIC LICENSE 2.0 - mozilla.org/en-US/MPL/2.0/
- * github.com/univrsal/JEI Buttons
- */
 public class MessageMagnetMode implements IMessage {
 
     public boolean removePlayer;

@@ -14,7 +14,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.inventory.*;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.player.RemotePlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
@@ -159,8 +158,9 @@ public class EventHandlers {
 
         if (gui instanceof ContainerScreen) {
             int keyCode = e.getKeyCode();
+            int scanCode = e.getScanCode();
 
-            if (ClientProxy.makeCopyKey.isActiveAndMatches(InputConstants.getKey(e.getKeyCode(),e.getScanCode()))) {
+            if (ClientProxy.makeCopyKey.isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {
                 Slot hovered = ((ContainerScreen) gui).getSlotUnderMouse();
 
                 if (hovered != null && ClientProxy.player.getInventory().getSelected().isEmpty() && !hovered.getItem().isEmpty() && hovered.hasItem()) {
@@ -172,7 +172,7 @@ public class EventHandlers {
                     stack.setTag(t);
                     ClientProxy.player.getInventory().setPickedItem(stack);
                 }
-            } else if (ClientProxy.hideAll.isActiveAndMatches(InputConstants.getKey(e.getKeyCode(), e.getScanCode()))) {
+            } else if (ClientProxy.hideAll.isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {
                 ConfigHandler.COMMON.showButtons.set(!ConfigHandler.COMMON.showButtons.get());
                 ConfigHandler.COMMON.showButtons.save();
             }
@@ -201,9 +201,6 @@ public class EventHandlers {
 
     @SubscribeEvent
     public void onWorldDraw(RenderLevelLastEvent event) {
-        //if (drawMobOverlay)
-            //MobOverlayRenderer.renderMobSpawnOverlay();
-
         if (ClientProxy.mc.screen == null) {
             //ModSubsetButtonHandler.isListShown = false;
             JeiUtilityButtons.isAnyButtonHovered = false;
