@@ -30,6 +30,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void commonSetup(FMLCommonSetupEvent e) {
         super.commonSetup(e);
+        registerKeyBind();
         MinecraftForge.EVENT_BUS.register(new EventHandlers());
         mc = Minecraft.getInstance();
         JeiUtilityButtons.setUpPositions();
