@@ -7,16 +7,10 @@ import io.bdc_labs.mc.jeiutilitybuttons.core.handlers.ConfigHandler;
 import io.bdc_labs.mc.jeiutilitybuttons.core.handlers.MagnetModeHandler;
 import io.bdc_labs.mc.jeiutilitybuttons.core.network.MessageExecuteButton;
 import io.bdc_labs.mc.jeiutilitybuttons.core.network.MessageMagnetMode;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.GameRules;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 
-/**
- * Created by universal on 06.04.2017.
- * This file is part of JEI Buttons which is licenced
- * under the MOZILLA PUBLIC LICENCE 2.0 - mozilla.org/en-US/MPL/2.0/
- * github.com/univrsal/JEI Buttons
- */
 public class CommandHelper {
 
     public static boolean useCheats = false;
@@ -37,8 +31,7 @@ public class CommandHelper {
                 handleButton(MessageExecuteButton.GM_SPECTATE, btn.getCommand().split(" "));
                 break;
             case DELETE:
-
-                ItemStack draggedStack = ClientProxy.player.inventory.getCarried();
+                ItemStack draggedStack = ClientProxy.player.inventoryMenu.getCarried();
                 if (draggedStack.isEmpty()) {
                     if (Screen.hasShiftDown() && ConfigHandler.COMMON.enableClearInventory.get())
                         command = new String[]{"clear", "@p"};
@@ -47,13 +40,13 @@ public class CommandHelper {
                     command = new String[]{"clear", "@p", name};
                     boolean ghost = draggedStack.hasTag() && draggedStack.getTag().getBoolean("JEI_Ghost");
                     if (ghost)
-                        ClientProxy.player.inventory.setPickedItem(ItemStack.EMPTY);
+                        ClientProxy.player.inventoryMenu.setCarried(ItemStack.EMPTY);
                 }
 
                 if (JeiUtilityButtons.isServerSidePresent) {
-                    ClientProxy.player.inventory.setPickedItem(ItemStack.EMPTY);
+                    ClientProxy.player.inventoryMenu.setCarried(ItemStack.EMPTY);
                     if (Screen.hasShiftDown() && ConfigHandler.COMMON.enableClearInventory.get())
-                        ClientProxy.player.inventory.clearContent();
+                        ClientProxy.player.getInventory().clearContent();
                 }
 
                 if (Screen.hasShiftDown() && ConfigHandler.COMMON.enableClearInventory.get())

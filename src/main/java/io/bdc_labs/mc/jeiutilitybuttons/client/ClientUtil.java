@@ -1,8 +1,8 @@
 package io.bdc_labs.mc.jeiutilitybuttons.client;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SimpleSound;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.sounds.SoundEvents;
 
 public class ClientUtil {
 
@@ -29,6 +29,6 @@ public class ClientUtil {
     }
 
     public static void playClick() {
-        mc.getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+        mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
     }
 }

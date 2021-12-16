@@ -24,7 +24,7 @@ version = "${mc_version}-${mod_version}-${build_number}"
 group = package_group
 archivesBaseName = "${mod_id}"
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '17'
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
@@ -36,7 +36,7 @@ minecraft {
 
             property 'forge.logging.markers', 'REGISTRIES'
 
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
 
             mods {
                 jeiutilitybuttons {
@@ -50,7 +50,7 @@ minecraft {
 
             property 'forge.logging.markers', 'REGISTRIES'
 
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
 
             mods {
                 jeiutilitybuttons {

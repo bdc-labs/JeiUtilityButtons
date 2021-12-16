@@ -1,13 +1,13 @@
 package io.bdc_labs.mc.jeiutilitybuttons.core.network;
 
 import io.bdc_labs.mc.jeiutilitybuttons.JeiUtilityButtons;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -30,9 +30,9 @@ public class NetworkHandler {
 
 
     public <T extends IMessage> void register(Class<T> clazz, NetworkDirection dir) {
-        BiConsumer<T, PacketBuffer> encoder = (msg, buf) -> MessageSerializer.writeObject(msg, buf);
+        BiConsumer<T, FriendlyByteBuf> encoder = (msg, buf) -> MessageSerializer.writeObject(msg, buf);
 
-        Function<PacketBuffer, T> decoder = (buf) -> {
+        Function<FriendlyByteBuf, T> decoder = (buf) -> {
             try {
                 T msg = clazz.newInstance();
                 MessageSerializer.readObject(msg, buf);
@@ -54,7 +54,7 @@ public class NetworkHandler {
         i++;
     }
 
-    public void sendToPlayer(IMessage msg, ServerPlayerEntity player) {
+    public void sendToPlayer(IMessage msg, ServerPlayer player) {
         channel.sendTo(msg, player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
     }
 

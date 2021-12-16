@@ -6,7 +6,8 @@ import io.bdc_labs.mc.jeiutilitybuttons.client.Localization;
 import io.bdc_labs.mc.jeiutilitybuttons.core.CommonProxy;
 import io.bdc_labs.mc.jeiutilitybuttons.core.IProxy;
 import io.bdc_labs.mc.jeiutilitybuttons.core.handlers.ConfigHandler;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -97,9 +98,9 @@ public class JeiUtilityButtons
     public static void sendCommand(String cmd) {
         cmd = "/" + cmd;
         if (cmd.length() <= 256 && ClientProxy.mc.player != null)
-            ClientProxy.mc.player.sendMessage(new TranslationTextComponent(cmd), ClientProxy.mc.player.getUUID());
+            ClientProxy.mc.player.sendMessage(new TranslatableComponent(cmd), ClientProxy.mc.player.getUUID());
         else
-            ClientProxy.mc.gui.getChat().addMessage(new TranslationTextComponent(Localization.NBT_TOO_LONG));
+            ClientProxy.mc.gui.getChat().addMessage(new TranslatableComponent(Localization.NBT_TOO_LONG));
     }
 
     public static void logInfo(String s, Object... format) {

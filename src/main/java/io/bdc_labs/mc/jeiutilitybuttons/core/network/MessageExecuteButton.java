@@ -1,30 +1,23 @@
 package io.bdc_labs.mc.jeiutilitybuttons.core.network;
 
-/**
- * Created by universal on 05.04.2017.
- * This file is part of JEI Buttons which is licenced
- * under the MOZILLA PUBLIC LICENCE 2.0 - mozilla.org/en-US/MPL/2.0/
- * github.com/univrsal/JEI Buttons
- */
 
-import io.bdc_labs.mc.jeiutilitybuttons.JeiUtilityButtons;
 import io.bdc_labs.mc.jeiutilitybuttons.client.Localization;
 import io.bdc_labs.mc.jeiutilitybuttons.core.handlers.ConfigHandler;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.GameType;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.ServerWorldInfo;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.storage.LevelData;
+import net.minecraft.world.level.storage.ServerLevelData;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.Iterator;
 
@@ -56,7 +49,7 @@ public class MessageExecuteButton implements IMessage {
         this.cmd = cmd != null ? cmd : new String[] { "" };
     }
 
-    public static boolean checkPermissions(ServerPlayerEntity player, MinecraftServer server) {
+    public static boolean checkPermissions(ServerPlayer player, MinecraftServer server) {
         if (server.isSingleplayer())
             return true;
         return server.getOperatorUserPermissionLevel() == server.getProfilePermissions(player.getGameProfile());
@@ -64,13 +57,13 @@ public class MessageExecuteButton implements IMessage {
 
     @Override
     public boolean receive(NetworkEvent.Context context) {
-        ServerPlayerEntity p = context.getSender();
+        ServerPlayer p = context.getSender();
 
         if (p == null)
             return false;
-        ServerWorld world = p.getLevel();
+        ServerLevel world = p.getLevel();
         MinecraftServer s = p.server;
-        ServerWorldInfo worldinfo = (ServerWorldInfo) world.getLevelData();
+        ServerLevelData worldinfo = (ServerLevelData) world.getLevelData();
         boolean isOP = checkPermissions(p, s);
         boolean error = true;
 
@@ -108,14 +101,14 @@ public class MessageExecuteButton implements IMessage {
                     break;
 
                 error = false;
-                p.inventory.clearContent();
+                p.getInventory().clearContent();
                 break;
             case DELETE:
                 if (!isOP && ConfigHandler.COMMON.deleteRequiresOP.get())
                     break;
 
                 error = false;
-                p.inventory.setCarried(ItemStack.EMPTY);
+                p.inventoryMenu.setCarried(ItemStack.EMPTY);
                 break;
             case SUN:
                 if (!isOP && ConfigHandler.COMMON.weatherRequiresOP.get())
@@ -166,10 +159,10 @@ public class MessageExecuteButton implements IMessage {
                     break;
 
                 error = false;
-                for (Iterator<Entity> e = world.getEntities().iterator(); e.hasNext(); ) {
+                for (Iterator<Entity> e = world.getEntities().getAll().iterator(); e.hasNext(); ) {
                     Entity entity = e.next();
 
-                    if (!(entity instanceof PlayerEntity) && entity instanceof LivingEntity || entity instanceof ItemEntity) {
+                    if (!(entity instanceof ServerPlayer) && entity instanceof LivingEntity || entity instanceof ItemEntity) {
                         world.removeEntity(entity, false);
                     }
                 }
@@ -178,7 +171,7 @@ public class MessageExecuteButton implements IMessage {
         }
 
         if (error) {
-            ITextComponent msg = new TranslationTextComponent(Localization.NO_PERMISSIONS).withStyle(TextFormatting.RED);
+            TextComponent msg = (TextComponent) new TextComponent(Localization.NO_PERMISSIONS).withStyle(ChatFormatting.RED);
             p.sendMessage(msg, p.getUUID());
         }
         return !error;

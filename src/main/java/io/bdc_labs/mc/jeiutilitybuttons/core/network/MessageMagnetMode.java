@@ -3,13 +3,11 @@ package io.bdc_labs.mc.jeiutilitybuttons.core.network;
 import io.bdc_labs.mc.jeiutilitybuttons.client.Localization;
 import io.bdc_labs.mc.jeiutilitybuttons.core.CommonProxy;
 import io.bdc_labs.mc.jeiutilitybuttons.core.handlers.ConfigHandler;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.network.NetworkEvent;
 
 /**
  * Created by universal on 20.09.2016 14:31.
@@ -29,13 +27,13 @@ public class MessageMagnetMode implements IMessage {
 
     @Override
     public boolean receive(NetworkEvent.Context context) {
-        ServerPlayerEntity p = context.getSender();
+        ServerPlayer p = context.getSender();
         MinecraftServer s = p.getServer();
         if (s == null)
             return false;
 
         boolean isOP = MessageExecuteButton.checkPermissions(p, s);
-        ITextComponent msg = new TranslationTextComponent(Localization.NO_PERMISSIONS).withStyle(TextFormatting.RED);
+        TextComponent msg = (TextComponent) new TextComponent(Localization.NO_PERMISSIONS).withStyle(ChatFormatting.RED);
 
         if (!isOP && ConfigHandler.COMMON.magnetRequiresOP.get()) {
             p.sendMessage(msg, p.getUUID());

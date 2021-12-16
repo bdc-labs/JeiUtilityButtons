@@ -1,9 +1,10 @@
 package io.bdc_labs.mc.jeiutilitybuttons.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import io.bdc_labs.mc.jeiutilitybuttons.JeiUtilityButtons;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.gui.GuiUtils;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.gui.GuiUtils;
 
 public enum EnumButtonCommands {
     CREATIVE("gamemode creative", 5, 5),
@@ -94,10 +95,10 @@ public enum EnumButtonCommands {
             }
             state = JeiUtilityButtons.EnumButtonState.DISABLED;
         }
-        ClientProxy.mc.textureManager.bind(icons);
-        RenderSystem.color3f(1.0f, 1.0f, 1.0f);
-        GuiUtils.drawTexturedModalRect(xPos, yPos, width * iconID(), height * state.ordinal(), width, height, 1);
-        //RenderHelper.disableStandardItemLighting();
+
+        RenderSystem.setShaderTexture(0, icons);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
+        GuiUtils.drawTexturedModalRect(new PoseStack(), xPos, yPos, width * iconID(), height * state.ordinal(), width, height, 1);
     }
 
     public String getCommand() {
